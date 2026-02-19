@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 using NZWalks.API.Data;
+using NZWalks.API.Mappings;
 using NZWalks.API.Models.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +17,9 @@ builder.Services.AddDbContext<NZWalksDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("NZWalksConnectionString")));
 
 builder.Services.AddScoped<IRegionRepository, SQLRegionRepository>();
+// Use the overload that takes a config action and then the assembly/type
+builder.Services.AddAutoMapper(cfg =>
+{}, typeof(AutoMapperProfiles).Assembly);
 
 var app = builder.Build();
 
