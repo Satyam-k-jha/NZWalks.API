@@ -17,6 +17,7 @@ builder.Services.AddDbContext<NZWalksDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("NZWalksConnectionString")));
 
 builder.Services.AddScoped<IRegionRepository, SQLRegionRepository>();
+builder.Services.AddScoped<IWalkRepository, SqlWalkRepository>();
 // Use the overload that takes a config action and then the assembly/type
 builder.Services.AddAutoMapper(cfg =>
 {}, typeof(AutoMapperProfiles).Assembly);

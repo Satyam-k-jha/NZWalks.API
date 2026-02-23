@@ -65,17 +65,25 @@ namespace NZWalks.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] AddRegionRequestDto addRegionRequestDto)
         {
-            var region = mapper.Map<Region>(addRegionRequestDto);
-            region = await regionRepository.CreateAsync(region);
-            //var regionDto = new RegionDto()
-            //{
-            //    Id = region.Id,
-            //    Code = region.Code,
-            //    Name = region.Name,
-            //    RegionImageUrl = region.RegionImageUrl
-            //};
-            var regionDto = mapper.Map<RegionDto>(region);
-            return CreatedAtAction(nameof(GetById), new {id = regionDto.Id}, regionDto);
+            if (ModelState.IsValid)
+            {
+
+                var region = mapper.Map<Region>(addRegionRequestDto);
+                region = await regionRepository.CreateAsync(region);
+                //var regionDto = new RegionDto()
+                //{
+                //    Id = region.Id,
+                //    Code = region.Code,
+                //    Name = region.Name,
+                //    RegionImageUrl = region.RegionImageUrl
+                //};
+                var regionDto = mapper.Map<RegionDto>(region);
+                return CreatedAtAction(nameof(GetById), new { id = regionDto.Id }, regionDto);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
 
 
