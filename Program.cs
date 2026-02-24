@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using NZWalks.API.Data;
 using NZWalks.API.Mappings;
-using NZWalks.API.Models.Repositories;
+using NZWalks.API.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 

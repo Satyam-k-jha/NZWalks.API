@@ -2,7 +2,7 @@
 using NZWalks.API.Data;
 using NZWalks.API.Models.Domain;
 
-namespace NZWalks.API.Models.Repositories
+namespace NZWalks.API.Repositories
 {
     public class SQLRegionRepository : IRegionRepository
     {

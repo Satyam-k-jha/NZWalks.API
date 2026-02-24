@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Update.Internal;
 using NZWalks.API.Models.Domain;
 
-namespace NZWalks.API.Models.Repositories
+namespace NZWalks.API.Repositories
 {
     public interface IRegionRepository
     {
