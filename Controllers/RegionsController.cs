@@ -2,10 +2,11 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NZWalks.API.CustomActionFilters;
 using NZWalks.API.Data;
 using NZWalks.API.Models.Domain;
 using NZWalks.API.Models.DTO;
-using NZWalks.API.Models.Repositories;
+using NZWalks.API.Repositories;
 
 namespace NZWalks.API.Controllers
 {
@@ -63,11 +64,10 @@ namespace NZWalks.API.Controllers
         }
 
         [HttpPost]
+        [ValidateModel]
         public async Task<IActionResult> Create([FromBody] AddRegionRequestDto addRegionRequestDto)
         {
-            if (ModelState.IsValid)
-            {
-
+           
                 var region = mapper.Map<Region>(addRegionRequestDto);
                 region = await regionRepository.CreateAsync(region);
                 //var regionDto = new RegionDto()
@@ -79,16 +79,12 @@ namespace NZWalks.API.Controllers
                 //};
                 var regionDto = mapper.Map<RegionDto>(region);
                 return CreatedAtAction(nameof(GetById), new { id = regionDto.Id }, regionDto);
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
         }
 
 
         [HttpPut]
         [Route("{id:guid}")]
+        [ValidateModel]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegion)
         {
             //var region = new Region()
@@ -97,10 +93,11 @@ namespace NZWalks.API.Controllers
             //    Name = updateRegion.Name,
             //    RegionImageUrl = updateRegion.RegionImageUrl
             //};
+
             var region = mapper.Map<Region>(updateRegion);
 
             region = await regionRepository.UpdateAsync(id, region);
-            if(region == null)
+            if (region == null)
             {
                 return NotFound();
             }
@@ -115,6 +112,7 @@ namespace NZWalks.API.Controllers
             var regionDto = mapper.Map<RegionDto>(region);
             return Ok(regionDto);
         }
+           
 
         [HttpDelete]
         [Route("{id:guid}")]
