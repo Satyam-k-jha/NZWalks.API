@@ -19,16 +19,23 @@ namespace NZWalks.API.Controllers
         private readonly NZWalksDbContext _context;
         private readonly IRegionRepository regionRepository;
         private readonly IMapper mapper;
-        public RegionsController(NZWalksDbContext dbContext, IRegionRepository regionRepository, IMapper mapper)
+        private readonly ILogger<RegionsController> logger;
+
+        public RegionsController(NZWalksDbContext dbContext, 
+            IRegionRepository regionRepository, 
+            IMapper mapper,
+            ILogger<RegionsController> logger)
         {
             _context = dbContext;
             this.regionRepository = regionRepository;
             this.mapper = mapper;
+            this.logger = logger;
         }
         [HttpGet]
         [Authorize(Roles = "Reader")]
         public async Task<IActionResult> GetAll()
         {
+            logger.LogInformation("GetAllRegions Action Method was invoked");
            var regions = await regionRepository.GetAllAsync();
             //var regionDto = new List<RegionDto>();
             //foreach (var region in regions)
@@ -41,6 +48,7 @@ namespace NZWalks.API.Controllers
             //        RegionImageUrl = region.RegionImageUrl
             //    });
             //}
+            logger.LogInformation($"Finished all and getched: {JsonSerializer.Serialize(regions)}");
             var regionsD = mapper.Map<List<RegionDto>>(regions);
             return Ok(regionsD);
         }

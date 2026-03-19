@@ -14,6 +14,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+var logger = new LoggerConfiguration()
+    .WriteTo.File("Logs/NzWalks_Log.txt", rollingInterval: RollingInterval.Day)
+    .WriteTo.Console()
+    .MinimumLevel.Information()
+    .CreateLogger();
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
+
 builder.Services.AddControllers();
 builder.Services.AddHttpContextAccessor();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -100,6 +109,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 
