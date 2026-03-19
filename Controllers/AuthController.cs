@@ -40,7 +40,7 @@ namespace NZWalks.API.Controllers
                 identityResult= await userManager.AddToRolesAsync(identityUser, registerRequestDto.Roles);
                     if (identityResult.Succeeded)
                     {
-                        return Ok("User Is registered! Please login.");
+                        return Ok("User Was registered! Please login.");
                     }
                 }
             }
